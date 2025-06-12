@@ -1,0 +1,5 @@
+Email,First Name,Last Name,IMAP Username,IMAP Password,IMAP Host,IMAP Port,SMTP Username,SMTP Password,SMTP Host,SMTP Port,Daily Limit,Warmup Enabled,Warmup Limit,Warmup Increment,Tracking Domain,Warmup Filter Tag,Warmup On Weekdays,Warmup Open Rate,Warmup Spam Protection Rate,Warmup Mark As Important Rate
+abc@gmail.com,John ,Doe,abc@gmail.com,abcdedfh-asdf,imap.gmail.com,993,abc@gmail.com,t11a-21312-adsasd,smtp.gmail.com,587,20,TRUE,20,1,trak.nich.cloud,shadow,TRUE,100,70,95
+efg@reachinbox.ai,Jane,Doe,efg@reachinbox.ai,,imap.gmail.com,993,efg@reachinbox.ai,,smtp.gmail.com,587,20,FALSE,20,1,trak.reach.cloud,shadow-fox,TRUE,90,80,100
+jkh@demo.com,John ,Smith,jkh@demo.com,,gator2117.hostgator.com,993,jkh@demo.com,,gator2117.hostgator.com,465,20,TRUE,20,1,trak.network.cloud,shadow-white,TRUE,95,100,89
+lmn@warmup.com,Jane,Smith,lmn@warmup.com,,imappro.zoho.eu,993,lmn@warmup.com,,smtppro.zoho.eu,587,20,FALSE,20,1,trak.network.sky,shy-white,FALSE,99,95,99
