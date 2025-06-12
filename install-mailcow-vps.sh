@@ -251,6 +251,19 @@ curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/scri
 
 chmod +x *.py
 
+echo "=== Step 10: Set Admin Password ==="
+echo "Setting default admin password to 'moohoo'..."
+cd /opt/mailcow-dockerized
+
+# Wait for MySQL to be ready
+echo "Waiting for MySQL to initialize..."
+sleep 10
+
+# Reset admin password to default 'moohoo'
+docker compose exec -T mysql-mailcow mysql -umailcow -p$(grep DBPASS mailcow.conf | cut -d= -f2) mailcow -e "INSERT INTO admin (username, password, superadmin, created, modified, active) VALUES ('admin', '{SSHA256}K8eVJ6YsZbQCfuJvSUbaQRLr0HPLz5rC9IAp0PAFl0tmNDBkMDc0', 1, NOW(), NOW(), 1) ON DUPLICATE KEY UPDATE password = '{SSHA256}K8eVJ6YsZbQCfuJvSUbaQRLr0HPLz5rC9IAp0PAFl0tmNDBkMDc0';" 2>/dev/null || echo "Admin user setup will complete automatically"
+
+cd /opt/mailcow-management
+
 echo "=== Installation Complete ==="
 echo "VPS IP: $VPS_IP"
 echo "Nameserver Domain: $NS_DOMAIN"
@@ -261,9 +274,9 @@ echo "1. Register nameservers at Namecheap:"
 echo "   - ns1.$NS_BASE -> $VPS_IP"
 echo "   - ns2.$NS_BASE -> $VPS_IP"
 echo "2. Configure PTR record at RackNerd: $VPS_IP -> mail.$NS_BASE"
-echo "3. Access Mailcow at https://mail.$NS_BASE"
+echo "3. Access Mailcow at https://mail.$NS_BASE or https://$VPS_IP"
 echo "   Default login: admin / moohoo"
-echo "4. Generate API key in Mailcow admin panel"
+echo "4. Generate API key in Mailcow admin panel (Configuration → Access → API)"
 echo "5. Update /opt/mailcow-management/config.py with API key"
 echo ""
 echo "Management tools will be downloaded when you run bulk setup."

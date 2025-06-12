@@ -8,18 +8,20 @@ Automated setup for mailcow instances with custom nameservers for cold email cam
 
 SSH into your fresh RackNerd Ubuntu 22.04 VPS and run:
 
-**Option 1: Interactive Installation**
+**Recommended: Interactive Installation**
 ```bash
 wget https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh
 chmod +x install-mailcow-vps.sh
 ./install-mailcow-vps.sh
 ```
 
-**Option 2: Non-Interactive Installation**
+**Alternative: Non-Interactive Installation**
 ```bash
 NS_DOMAIN=ns1.yourdomain.com curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
 ```
 (Replace `ns1.yourdomain.com` with your actual nameserver domain)
+
+**⚠️ Note:** Use the wget method for best results. The curl method may have issues with interactive prompts.
 
 This installs:
 - Docker & Docker Compose v2 (latest)
@@ -42,7 +44,7 @@ At RackNerd, set PTR record:
 
 ### 4. Setup Mailcow API
 
-1. Access Mailcow: `https://mail.yourdomain.com`
+1. Access Mailcow: `https://mail.yourdomain.com` or `https://YOUR_VPS_IP`
 2. Login: `admin` / `moohoo`
 3. Generate API key: Configuration → Access → API
 4. Update config: `/opt/mailcow-management/config.py`
@@ -50,6 +52,8 @@ At RackNerd, set PTR record:
 ```python
 MAILCOW_API_KEY = "your-api-key-here"
 ```
+
+**Note:** You can access mailcow via IP address before DNS is configured.
 
 ### 5. Bulk Domain Setup
 
@@ -165,12 +169,23 @@ autoconfig IN CNAME mail
 ### Check Mailcow Status
 ```bash
 cd /opt/mailcow-dockerized
-docker-compose ps
-docker-compose logs -f
+docker compose ps
+docker compose logs -f
+
+# Check all containers are running
+docker compose ls
+# Should show: mailcowdockerized running(18)
 
 # Check Docker Compose version
-docker-compose --version
+docker compose version
 # Should show version 2.x.x or higher
+```
+
+### Admin Login Issues
+If you can't login with admin/moohoo, reset the password:
+```bash
+cd /opt/mailcow-dockerized
+docker compose exec -T mysql-mailcow mysql -umailcow -p$(grep DBPASS mailcow.conf | cut -d= -f2) mailcow -e "UPDATE admin SET password = '{SSHA256}K8eVJ6YsZbQCfuJvSUbaQRLr0HPLz5rC9IAp0PAFl0tmNDBkMDc0' WHERE username = 'admin';"
 ```
 
 ### Check BIND9 Status
