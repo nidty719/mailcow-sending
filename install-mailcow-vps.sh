@@ -25,7 +25,21 @@ echo "=== Step 1: System Update ==="
 apt update && apt upgrade -y
 
 echo "=== Step 2: Install Dependencies ==="
-apt install -y docker.io docker-compose git curl bind9 bind9utils bind9-doc python3 python3-pip ufw
+apt install -y docker.io git curl bind9 bind9utils bind9-doc python3 python3-pip ufw
+
+echo "=== Step 2.1: Install Docker Compose v2 ==="
+# Remove old docker-compose if installed
+apt remove -y docker-compose
+
+# Install Docker Compose v2
+curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+# Create symlink for compatibility
+ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+# Verify installation
+docker-compose --version
 
 echo "=== Step 3: Configure Firewall ==="
 ufw --force enable
@@ -47,6 +61,9 @@ systemctl enable docker
 systemctl start docker
 systemctl enable named
 systemctl start named
+
+# Add user to docker group (will take effect on next login)
+usermod -aG docker $USER
 
 echo "=== Step 5: Configure BIND9 Nameserver ==="
 # Backup original configs

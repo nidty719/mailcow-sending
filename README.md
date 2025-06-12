@@ -13,7 +13,7 @@ curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/inst
 ```
 
 This installs:
-- Docker & Docker Compose
+- Docker & Docker Compose v2 (latest)
 - BIND9 DNS server
 - Mailcow mail server
 - Python management tools
@@ -158,6 +158,10 @@ autoconfig IN CNAME mail
 cd /opt/mailcow-dockerized
 docker-compose ps
 docker-compose logs -f
+
+# Check Docker Compose version
+docker-compose --version
+# Should show version 2.x.x or higher
 ```
 
 ### Check BIND9 Status
