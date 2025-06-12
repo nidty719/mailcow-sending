@@ -164,7 +164,7 @@ SKIP_HTTP_VERIFICATION=n
 ADDITIONAL_SAN=
 ADDITIONAL_SERVER_NAMES=
 COMPOSE_PROJECT_NAME=mailcowdockerized
-DOCKER_COMPOSE_VERSION=v2
+DOCKER_COMPOSE_VERSION=native
 RESTART_POLICY=unless-stopped
 WATCHDOG_NOTIFY_EMAIL=
 WATCHDOG_NOTIFY_BAN=Y
@@ -186,7 +186,14 @@ EOF
 ./generate_config.sh
 
 echo "=== Step 7: Start Mailcow ==="
-docker-compose up -d
+docker compose up -d
+
+echo "=== Step 7.1: Wait for Mailcow to Start ==="
+echo "Waiting for Mailcow containers to be ready..."
+sleep 30
+
+# Check if containers are running
+docker compose ps
 
 echo "=== Step 8: Install Management Tools ==="
 pip3 install requests dnspython pyotp qrcode
@@ -211,12 +218,12 @@ DEFAULT_TTL = 300
 MAILCOW_API_KEY = None
 EOF
 
-echo "=== Step 9: Wait for Mailcow to Start ==="
-echo "Waiting for Mailcow containers to be ready..."
-sleep 30
+echo "=== Step 9: Download Management Scripts ==="
+# Download management scripts
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/scripts/bulk-setup.py -o bulk-setup.py
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/scripts/dns-manager.py -o dns-manager.py
 
-# Check if containers are running
-docker-compose ps
+chmod +x *.py
 
 echo "=== Installation Complete ==="
 echo "VPS IP: $VPS_IP"
