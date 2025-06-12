@@ -109,6 +109,13 @@ systemctl restart named
 
 echo "=== Step 6: Install Mailcow ==="
 cd /opt
+
+# Remove existing mailcow directory if it exists
+if [ -d "mailcow-dockerized" ]; then
+    echo "Removing existing mailcow-dockerized directory..."
+    rm -rf mailcow-dockerized
+fi
+
 git clone https://github.com/mailcow/mailcow-dockerized
 cd mailcow-dockerized
 
