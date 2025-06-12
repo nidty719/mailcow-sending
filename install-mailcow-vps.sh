@@ -214,6 +214,32 @@ EOF
 echo "=== Step 7: Start Mailcow ==="
 docker compose up -d
 
+echo "=== Step 7.1: Enable Auto-Start on Reboot ==="
+# Create systemd service for mailcow auto-start
+cat > /etc/systemd/system/mailcow.service << 'EOF'
+[Unit]
+Description=Mailcow Dockerized
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/opt/mailcow-dockerized
+ExecStart=/usr/bin/docker compose up -d
+ExecStop=/usr/bin/docker compose down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Enable the service
+systemctl enable mailcow.service
+systemctl daemon-reload
+
+echo "Mailcow will now auto-start on system reboot"
+
 echo "=== Step 7.1: Wait for Mailcow to Start ==="
 echo "Waiting for Mailcow containers to be ready..."
 sleep 30

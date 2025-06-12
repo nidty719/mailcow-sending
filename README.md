@@ -195,6 +195,37 @@ named-checkconf
 dig @localhost example.com
 ```
 
+### Manual Startup After Reboot
+If you need to manually start mailcow after a reboot:
+```bash
+# Start mailcow
+cd /opt/mailcow-dockerized
+docker compose up -d
+
+# Check status
+docker compose ps
+
+# Or use the systemd service (auto-enabled by installation script)
+systemctl start mailcow
+systemctl status mailcow
+```
+
+### Auto-Start Configuration
+The installation script automatically enables mailcow to start on boot. To manage this:
+```bash
+# Check if auto-start is enabled
+systemctl is-enabled mailcow
+
+# Disable auto-start
+systemctl disable mailcow
+
+# Re-enable auto-start
+systemctl enable mailcow
+
+# Check service status
+systemctl status mailcow
+```
+
 ### Test Email Connectivity
 ```bash
 # Test SMTP
