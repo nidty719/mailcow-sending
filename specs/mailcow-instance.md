@@ -39,14 +39,14 @@ VPS-3 (IP: 9.10.11.12) → ns5.yourdomain.com, ns6.yourdomain.com
 #### 1.2 Single Installation Script
 **Run one command to install everything:**
 ```bash
-curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/install-mailcow-vps.sh | bash
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
 ```
 
 **Complete Installation Script (install-mailcow-vps.sh):**
 ```bash
 #!/bin/bash
 # install-mailcow-vps.sh - Complete VPS setup for mailcow + BIND9
-# Usage: curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/install-mailcow-vps.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
 
 set -e
 
@@ -127,8 +127,8 @@ mkdir -p /opt/mailcow-management
 cd /opt/mailcow-management
 
 # Download management scripts
-curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/scripts/bulk-setup.py -o bulk-setup.py
-curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/scripts/dns-manager.py -o dns-manager.py
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/scripts/bulk-setup.py -o bulk-setup.py
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/scripts/dns-manager.py -o dns-manager.py
 
 chmod +x *.py
 
@@ -306,7 +306,7 @@ john@example1.com,John,Doe,john@example1.com,SecurePass123,mail.yourvps1.com,993
 ### Step 1: VPS Setup (One Command)
 ```bash
 # SSH into fresh RackNerd VPS and run:
-curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/install-mailcow-vps.sh | bash
+curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
 ```
 **This installs everything:** Docker, BIND9, Mailcow, Python tools
 

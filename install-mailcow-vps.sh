@@ -1,6 +1,6 @@
 #!/bin/bash
 # install-mailcow-vps.sh - Complete VPS setup for mailcow + BIND9
-# Usage: curl -sSL https://raw.githubusercontent.com/yourusername/mailcow-sending/main/install-mailcow-vps.sh | bash
+# Usage: curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
 
 set -e
 
