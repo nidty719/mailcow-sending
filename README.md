@@ -162,7 +162,7 @@ docker-compose logs -f
 
 ### Check BIND9 Status
 ```bash
-systemctl status bind9
+systemctl status named
 named-checkconf
 dig @localhost example.com
 ```

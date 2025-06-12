@@ -169,7 +169,7 @@ zone "{domain}" {{
                 return False
             
             # Reload BIND9
-            result = subprocess.run(['systemctl', 'reload', 'bind9'], capture_output=True, text=True)
+            result = subprocess.run(['systemctl', 'reload', 'named'], capture_output=True, text=True)
             if result.returncode == 0:
                 print("BIND9 reloaded successfully")
                 return True

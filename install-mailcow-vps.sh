@@ -45,8 +45,8 @@ ufw allow 995/tcp
 echo "=== Step 4: Configure Services ==="
 systemctl enable docker
 systemctl start docker
-systemctl enable bind9
-systemctl start bind9
+systemctl enable named
+systemctl start named
 
 echo "=== Step 5: Configure BIND9 Nameserver ==="
 # Backup original configs
@@ -88,7 +88,7 @@ EOF
 
 # Test BIND9 config and restart
 named-checkconf
-systemctl restart bind9
+systemctl restart named
 
 echo "=== Step 6: Install Mailcow ==="
 cd /opt

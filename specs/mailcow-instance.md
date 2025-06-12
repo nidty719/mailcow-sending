@@ -70,8 +70,8 @@ apt install -y docker.io docker-compose git curl bind9 bind9utils bind9-doc pyth
 echo "=== Step 3: Configure Services ==="
 systemctl enable docker
 systemctl start docker
-systemctl enable bind9
-systemctl start bind9
+systemctl enable named
+systemctl start named
 usermod -aG docker $USER
 
 echo "=== Step 4: Configure BIND9 Nameserver ==="
@@ -100,7 +100,7 @@ cat > /etc/bind/named.conf.local << 'EOF'
 //
 EOF
 
-systemctl restart bind9
+systemctl restart named
 
 echo "=== Step 5: Install Mailcow ==="
 cd /opt
@@ -223,7 +223,7 @@ zone "{domain}" {{
         f.write(zone_config)
     
     # Reload BIND9
-    subprocess.run(['systemctl', 'reload', 'bind9'])
+    subprocess.run(['systemctl', 'reload', 'named'])
 ```
 
 #### 2.4 Namecheap Nameserver Registration Process
