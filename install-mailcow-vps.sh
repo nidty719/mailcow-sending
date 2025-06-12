@@ -17,8 +17,34 @@ fi
 VPS_IP=$(curl -s ifconfig.me)
 echo "Detected VPS IP: $VPS_IP"
 
-# Prompt for nameserver domain
-read -p "Enter your nameserver domain (e.g., ns1.yourdomain.com): " NS_DOMAIN
+# Get nameserver domain
+if [ -z "$NS_DOMAIN" ]; then
+    if [ -t 0 ]; then
+        # Running interactively
+        read -p "Enter your nameserver domain (e.g., ns1.yourdomain.com): " NS_DOMAIN
+    else
+        # Running non-interactively (curl | bash)
+        echo "ERROR: Script is running non-interactively and NS_DOMAIN is not set."
+        echo ""
+        echo "Please either:"
+        echo "1. Download and run the script manually:"
+        echo "   wget https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh"
+        echo "   chmod +x install-mailcow-vps.sh"
+        echo "   ./install-mailcow-vps.sh"
+        echo ""
+        echo "2. Or set the NS_DOMAIN environment variable:"
+        echo "   NS_DOMAIN=ns1.yourdomain.com curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash"
+        echo ""
+        exit 1
+    fi
+fi
+
+# Validate NS_DOMAIN
+if [ -z "$NS_DOMAIN" ]; then
+    echo "ERROR: Nameserver domain cannot be empty"
+    exit 1
+fi
+
 NS_BASE=$(echo $NS_DOMAIN | sed 's/ns[0-9]*\.//')
 
 echo "=== Step 1: System Update ==="

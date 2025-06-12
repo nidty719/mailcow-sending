@@ -8,9 +8,18 @@ Automated setup for mailcow instances with custom nameservers for cold email cam
 
 SSH into your fresh RackNerd Ubuntu 22.04 VPS and run:
 
+**Option 1: Interactive Installation**
 ```bash
-curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
+wget https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh
+chmod +x install-mailcow-vps.sh
+./install-mailcow-vps.sh
 ```
+
+**Option 2: Non-Interactive Installation**
+```bash
+NS_DOMAIN=ns1.yourdomain.com curl -sSL https://raw.githubusercontent.com/nidty719/mailcow-sending/master/install-mailcow-vps.sh | bash
+```
+(Replace `ns1.yourdomain.com` with your actual nameserver domain)
 
 This installs:
 - Docker & Docker Compose v2 (latest)
