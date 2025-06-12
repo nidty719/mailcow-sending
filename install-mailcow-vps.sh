@@ -28,8 +28,18 @@ echo "=== Step 2: Install Dependencies ==="
 apt install -y git curl bind9 bind9utils bind9-doc python3 python3-pip ufw
 
 echo "=== Step 2.1: Remove Old Docker Packages ==="
-# Remove old Docker packages that might conflict
-apt remove -y docker docker-engine docker.io containerd runc docker-compose
+# Remove old Docker packages that might conflict (only if they exist)
+for pkg in docker.io docker-doc docker-compose podman-docker containerd runc; do
+    if dpkg -l | grep -q "^ii  $pkg "; then
+        echo "Removing $pkg..."
+        apt remove -y $pkg
+    else
+        echo "$pkg not installed, skipping..."
+    fi
+done
+
+# Clean up
+apt autoremove -y
 
 echo "=== Step 2.2: Install Docker CE and Compose v2 ==="
 
