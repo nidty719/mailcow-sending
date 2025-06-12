@@ -1,7 +1,4 @@
 Domain,Username,First Name,Last Name,Daily Limit,Tracking Domain
-example1.com,john,John,Doe,50,track.example1.com
-example1.com,jane,Jane,Smith,30,track.example1.com
-example2.com,mike,Mike,Johnson,40,track.example2.com
-example2.com,sarah,Sarah,Wilson,35,track.example2.com
-example3.com,david,David,Brown,60,track.example3.com
-example3.com,lisa,Lisa,Davis,25,track.example3.com
+lifetimeinbox.click,noah.w,Noah,W,50,track.lifetimeinbox.click
+lifetimeinbox.click,noah,Noah,Inbox,40,track.lifetimeinbox.click
+lifetimeinbox.click,noah.wasserman,Noah,Wasserman,45,track.lifetimeinbox.click
