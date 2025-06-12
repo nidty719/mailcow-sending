@@ -25,20 +25,39 @@ echo "=== Step 1: System Update ==="
 apt update && apt upgrade -y
 
 echo "=== Step 2: Install Dependencies ==="
-apt install -y docker.io git curl bind9 bind9utils bind9-doc python3 python3-pip ufw
+apt install -y git curl bind9 bind9utils bind9-doc python3 python3-pip ufw
 
-echo "=== Step 2.1: Install Docker Compose v2 ==="
-# Remove old docker-compose if installed
-apt remove -y docker-compose
+echo "=== Step 2.1: Remove Old Docker Packages ==="
+# Remove old Docker packages that might conflict
+apt remove -y docker docker-engine docker.io containerd runc docker-compose
 
-# Install Docker Compose v2
+echo "=== Step 2.2: Install Docker CE and Compose v2 ==="
+
+# Install Docker's official Docker Compose plugin (recommended by mailcow)
+apt update
+apt install -y ca-certificates curl gnupg lsb-release
+
+# Add Docker's official GPG key
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+# Add Docker repository
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+# Update and install Docker CE and Docker Compose plugin
+apt update
+apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+# Also install standalone docker-compose for compatibility
 curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 
-# Create symlink for compatibility
+# Create symlinks for compatibility
 ln -sf /usr/local/bin/docker-compose /usr/bin/docker-compose
 
-# Verify installation
+# Verify installation - both methods should work
+echo "Testing Docker Compose installations:"
+docker compose version
 docker-compose --version
 
 echo "=== Step 3: Configure Firewall ==="
